@@ -1,3 +1,112 @@
 # Godot 4+ specific ignores
 .godot/
+export_presets.cfg
+
+# Godot-specific ignores
+*.tmp
+*.translation
+
+# Import cache
+.import/
+
+# Binaries
+*.o
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Debug files
+*.pdb
+
+# Mono-specific ignores (C# projects)
+.mono/
+data_*/
+mono_crash.*.json
+
+# MSBuild
+bin/
+obj/
+*.user
+*.suo
+*.sln.docstates
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.log
+*.tmp
+*.cache
+*.csproj.user
+*.unityproj
+*.sln.DotSettings.user
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Dependency directories
+node_modules
+jspm_packages
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Temporary folders
+tmp/
+temp/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Android/iOS builds
+*.apk
+*.aab
+*.ipa
 /android/
+
+# Export templates
+*.tpz
+
+# Addons (if using third-party addons, you might want to track them)
+# addons/
+
+# Local configuration
+override.cfg
+.fscache
