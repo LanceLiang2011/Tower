@@ -33,7 +33,7 @@ public partial class Main : Node
 
     if (cursor.Visible && (hoveredTilePosition == null || hoveredTilePosition != gridPosition)) hoveredTilePosition = gridPosition;
 
-    if (hoveredTilePosition.HasValue) gridManager.HighlightValidTilesInRadius(hoveredTilePosition.Value, 3);
+    if (hoveredTilePosition.HasValue) gridManager.HighlightBuildableTiles();
 
   }
 

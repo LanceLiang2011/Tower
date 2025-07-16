@@ -1,5 +1,7 @@
+using Game.Components;
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace Game.Manager;
@@ -19,31 +21,30 @@ public partial class GridManager : Node
   public Vector2I GetMouseGridPosition()
   {
     var mousePosition = highlightTileMapLayer.GetGlobalMousePosition();
-    var mousePositionAsFloat = (mousePosition / GRID_SIZE).Floor();
 
-    return new Vector2I((int)mousePositionAsFloat.X, (int)mousePositionAsFloat.Y);
+    return GetGridPositionFromPosition(mousePosition);
   }
 
-  public void HighlightValidTilesInRadius(Vector2I rootCellPosition, int radius)
+  public Vector2I GetGridPositionFromPosition(Vector2 position)
+  {
+    var positionAsFloat = (position / GRID_SIZE).Floor();
+    return new Vector2I((int)positionAsFloat.X, (int)positionAsFloat.Y);
+  }
+
+  public void HighlightBuildableTiles()
   {
     ClearHighlightedTiles();
 
-    for (int x = (int)rootCellPosition.X - radius; x <= (int)rootCellPosition.X + radius; x++)
+    var buildingComponents = GetTree().GetNodesInGroup(nameof(BuildingComponent)).Cast<BuildingComponent>();
+
+    foreach (var buildingComponent in buildingComponents)
     {
-      for (int y = (int)rootCellPosition.Y - radius; y <= (int)rootCellPosition.Y + radius; y++)
-      {
-        var tilePosition = new Vector2I(x, y);
+      var buildingCellPosition = buildingComponent.GetBuildingCellPosition();
 
-        if (!IsTilePositionValid(tilePosition)) continue;
-
-        highlightTileMapLayer.SetCell(
-          tilePosition,
-          0,
-          Vector2I.Zero
-        );
-      }
+      HighlightValidTilesInRadius(buildingCellPosition, buildingComponent.BuildingRadius);
     }
   }
+
 
   public void ClearHighlightedTiles()
   {
@@ -63,5 +64,25 @@ public partial class GridManager : Node
     if (customTerrainData == null || !customTerrainData.GetCustomData("buildable").As<bool>()) return false;
 
     return !occupiedTilePositions.Contains(tilePosition);
+  }
+
+  private void HighlightValidTilesInRadius(Vector2I rootCellPosition, int radius)
+  {
+
+    for (int x = (int)rootCellPosition.X - radius; x <= (int)rootCellPosition.X + radius; x++)
+    {
+      for (int y = (int)rootCellPosition.Y - radius; y <= (int)rootCellPosition.Y + radius; y++)
+      {
+        var tilePosition = new Vector2I(x, y);
+
+        if (!IsTilePositionValid(tilePosition)) continue;
+
+        highlightTileMapLayer.SetCell(
+          tilePosition,
+          0,
+          Vector2I.Zero
+        );
+      }
+    }
   }
 }
