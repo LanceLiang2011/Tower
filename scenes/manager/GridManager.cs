@@ -1,5 +1,7 @@
 using Game.Components;
+using Game.Events;
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,6 +19,14 @@ public partial class GridManager : Node
   private TileMapLayer highlightTileMapLayer;
   [Export]
   private TileMapLayer baseTerrainTileMapLayer;
+
+
+  public override void _Ready()
+  {
+    base._Ready();
+
+    GameEvents.Instance.BuildingPlaced += OnBuildingPlaced;
+  }
 
   public Vector2I GetMouseGridPosition()
   {
@@ -84,5 +94,10 @@ public partial class GridManager : Node
         );
       }
     }
+  }
+
+  private void OnBuildingPlaced(BuildingComponent buildingComponent)
+  {
+    occupiedTilePositions.Add(buildingComponent.GetBuildingCellPosition());
   }
 }
