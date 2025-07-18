@@ -1,16 +1,14 @@
 using Game.Components;
 using Game.Events;
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 
 namespace Game.Manager;
 
 public partial class GridManager : Node
 {
-  private HashSet<Vector2I> occupiedTilePositions = new();
+  private HashSet<Vector2I> validBuildableTilePositions = new();
 
   public float GRID_SIZE = 64f;
 
@@ -43,15 +41,13 @@ public partial class GridManager : Node
 
   public void HighlightBuildableTiles()
   {
-    ClearHighlightedTiles();
-
-    var buildingComponents = GetTree().GetNodesInGroup(nameof(BuildingComponent)).Cast<BuildingComponent>();
-
-    foreach (var buildingComponent in buildingComponents)
+    foreach (var validBuildablePotion in validBuildableTilePositions)
     {
-      var buildingCellPosition = buildingComponent.GetBuildingCellPosition();
-
-      HighlightValidTilesInRadius(buildingCellPosition, buildingComponent.BuildingRadius);
+      highlightTileMapLayer.SetCell(
+        validBuildablePotion,
+        0,
+        Vector2I.Zero
+      );
     }
   }
 
@@ -61,43 +57,52 @@ public partial class GridManager : Node
     highlightTileMapLayer.Clear();
   }
 
-  public void MarkTileAsOccupied(Vector2I tilePosition)
-  {
-    occupiedTilePositions.Add(tilePosition);
-  }
 
-  public bool IsTilePositionValid(Vector2I tilePosition)
+  private bool IsTilePositionValid(Vector2I tilePosition)
   {
-
     var customTerrainData = baseTerrainTileMapLayer.GetCellTileData(tilePosition);
 
-    if (customTerrainData == null || !customTerrainData.GetCustomData("buildable").As<bool>()) return false;
+    if (customTerrainData == null) return false;
 
-    return !occupiedTilePositions.Contains(tilePosition);
+    return customTerrainData.GetCustomData("buildable").As<bool>();
   }
 
-  private void HighlightValidTilesInRadius(Vector2I rootCellPosition, int radius)
+  public bool IsTilePositionBuildable(Vector2I tilePosition)
   {
+    return validBuildableTilePositions.Contains(tilePosition);
+  }
 
-    for (int x = (int)rootCellPosition.X - radius; x <= (int)rootCellPosition.X + radius; x++)
+
+  private void UpdateValidBuildableTilePositions(BuildingComponent buildingComponent)
+  {
+    var buildingCellPosition = buildingComponent.GetBuildingCellPosition();
+    var buildingRadius = buildingComponent.BuildingRadius;
+
+    GD.Print($"Updating valid buildable tile positions for building at {buildingCellPosition} with radius {buildingRadius}"); // TODO: Remove this
+
+    for (int x = buildingCellPosition.X - buildingRadius; x <= buildingCellPosition.X + buildingRadius; x++)
     {
-      for (int y = (int)rootCellPosition.Y - radius; y <= (int)rootCellPosition.Y + radius; y++)
+      for (int y = buildingCellPosition.Y - buildingRadius; y <= buildingCellPosition.Y + buildingRadius; y++)
       {
         var tilePosition = new Vector2I(x, y);
 
         if (!IsTilePositionValid(tilePosition)) continue;
 
-        highlightTileMapLayer.SetCell(
-          tilePosition,
-          0,
-          Vector2I.Zero
-        );
+        validBuildableTilePositions.Add(tilePosition);
       }
+    }
+
+    validBuildableTilePositions.Remove(buildingCellPosition);
+
+    GD.Print("Valid Buildable Positions:");
+    foreach (var position in validBuildableTilePositions)
+    {
+      GD.Print($"  ({position.X}, {position.Y})");
     }
   }
 
   private void OnBuildingPlaced(BuildingComponent buildingComponent)
   {
-    occupiedTilePositions.Add(buildingComponent.GetBuildingCellPosition());
+    UpdateValidBuildableTilePositions(buildingComponent);
   }
 }

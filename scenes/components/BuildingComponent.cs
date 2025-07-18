@@ -1,6 +1,5 @@
 using Game.Events;
 using Godot;
-using System;
 
 namespace Game.Components;
 
@@ -15,11 +14,12 @@ public partial class BuildingComponent : Node2D
   {
     AddToGroup(nameof(BuildingComponent));
 
-    GameEvents.EmitBuildingPlaced(this);
+    Callable.From(() => GameEvents.EmitBuildingPlaced(this)).CallDeferred();
   }
 
   public Vector2I GetBuildingCellPosition()
   {
+    GD.Print($"Getting building cell position for {Name} at {GlobalPosition}"); // TODO: Remove this
     return GetGridPositionFromPosition(GlobalPosition);
   }
 

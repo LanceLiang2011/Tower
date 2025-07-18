@@ -39,7 +39,7 @@ public partial class Main : Node
 
   public override void _UnhandledInput(InputEvent evt)
   {
-    if (hoveredTilePosition.HasValue && evt.IsActionPressed("left_click") && gridManager.IsTilePositionValid(hoveredTilePosition.Value))
+    if (hoveredTilePosition.HasValue && evt.IsActionPressed("left_click") && gridManager.IsTilePositionBuildable(hoveredTilePosition.Value))
     {
       SpawnBuildingOnHoveredGridPosition();
       cursor.Visible = false;
@@ -74,11 +74,12 @@ public partial class Main : Node
     if (hoveredTilePosition == null) return;
 
     var building = buildingScene.Instantiate<Node2D>();
+
     AddChild(building);
 
     building.GlobalPosition = new Vector2(hoveredTilePosition.Value.X, hoveredTilePosition.Value.Y) * gridManager.GRID_SIZE;
 
-    gridManager.MarkTileAsOccupied(hoveredTilePosition.Value);
+
   }
 
   private void OnPlaceBuildingButtonPressed()
