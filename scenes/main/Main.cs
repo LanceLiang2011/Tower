@@ -31,9 +31,12 @@ public partial class Main : Node
 
     cursor.GlobalPosition = new Vector2(gridPosition.X, gridPosition.Y) * gridManager.GRID_SIZE;
 
-    if (cursor.Visible && (hoveredTilePosition == null || hoveredTilePosition != gridPosition)) hoveredTilePosition = gridPosition;
+    if (cursor.Visible && (hoveredTilePosition == null || hoveredTilePosition != gridPosition))
+    {
+      hoveredTilePosition = gridPosition;
+      gridManager.HighlightExpandedBuildableTiles(hoveredTilePosition.Value, 3);
+    }
 
-    if (hoveredTilePosition.HasValue) gridManager.HighlightBuildableTiles();
 
   }
 
@@ -85,6 +88,7 @@ public partial class Main : Node
   private void OnPlaceBuildingButtonPressed()
   {
     cursor.Visible = true;
+    gridManager.HighlightBuildableTiles();
   }
 
 }

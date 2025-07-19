@@ -13,4 +13,4 @@ texture = SubResource("PlaceholderTexture2D_e7pcx")
 centered = false
 
 [node name="BuildingComponent" parent="." instance=ExtResource("1_3k3n5")]
-BuildingRadius = 2
+BuildingRadius = 3
