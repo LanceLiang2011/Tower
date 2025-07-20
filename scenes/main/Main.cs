@@ -10,6 +10,7 @@ public partial class Main : Node
   private GridManager gridManager;
   private Sprite2D cursor;
   private Button placeBuildingButton;
+  private Node2D ySortRoot;
 
   // Scenes
   private PackedScene buildingScene;
@@ -56,6 +57,7 @@ public partial class Main : Node
     gridManager = GetNode<GridManager>("%GridManager");
     cursor = GetNode<Sprite2D>("%Cursor");
     placeBuildingButton = GetNode<Button>("%PlaceBuildingButton");
+    ySortRoot = GetNode<Node2D>("%YSortRoot");
 
     buildingScene = GD.Load<PackedScene>("res://scenes/building/building.tscn");
   }
@@ -78,7 +80,7 @@ public partial class Main : Node
 
     var building = buildingScene.Instantiate<Node2D>();
 
-    AddChild(building);
+    ySortRoot.AddChild(building);
 
     building.GlobalPosition = new Vector2(hoveredTilePosition.Value.X, hoveredTilePosition.Value.Y) * gridManager.GRID_SIZE;
 
