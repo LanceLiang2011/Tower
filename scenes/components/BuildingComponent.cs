@@ -19,7 +19,6 @@ public partial class BuildingComponent : Node2D
 
   public Vector2I GetBuildingCellPosition()
   {
-    GD.Print($"Getting building cell position for {Name} at {GlobalPosition}"); // TODO: Remove this
     return GetGridPositionFromPosition(GlobalPosition);
   }
 

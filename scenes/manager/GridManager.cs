@@ -11,6 +11,7 @@ public partial class GridManager : Node
 {
   private HashSet<Vector2I> validBuildableTilePositions = new();
 
+
   public float GRID_SIZE = 64f;
 
 
@@ -19,12 +20,17 @@ public partial class GridManager : Node
   [Export]
   private TileMapLayer baseTerrainTileMapLayer;
 
+  private List<TileMapLayer> allTileMapLayers = new();
+
 
   public override void _Ready()
   {
     base._Ready();
 
     GameEvents.Instance.BuildingPlaced += OnBuildingPlaced;
+
+    allTileMapLayers = GetAllTileMapLayers(baseTerrainTileMapLayer);
+
   }
 
   public Vector2I GetMouseGridPosition()
@@ -33,6 +39,30 @@ public partial class GridManager : Node
 
     return GetGridPositionFromPosition(mousePosition);
   }
+
+
+  // A recursive method to get all TileMapLayers in the root layer and its children
+  private List<TileMapLayer> GetAllTileMapLayers(TileMapLayer rootLayer)
+  {
+    var result = new List<TileMapLayer>();
+
+    var rootLayerChildren = rootLayer.GetChildren();
+
+    rootLayerChildren.Reverse();
+
+    foreach (var child in rootLayerChildren)
+    {
+      if (child is TileMapLayer childMapLayer)
+      {
+        result.AddRange(GetAllTileMapLayers(childMapLayer));
+      }
+    }
+
+    result.Add(rootLayer);
+
+    return result;
+  }
+
 
   public Vector2I GetGridPositionFromPosition(Vector2 position)
   {
@@ -83,11 +113,20 @@ public partial class GridManager : Node
 
   private bool IsTilePositionValid(Vector2I tilePosition)
   {
-    var customTerrainData = baseTerrainTileMapLayer.GetCellTileData(tilePosition);
+    foreach (var layer in allTileMapLayers)
+    {
+      var customTerrainData = layer.GetCellTileData(tilePosition);
 
-    if (customTerrainData == null) return false;
+      // If the tile is not found, we should check next next layer which is the higher layer in hierarchy
+      if (customTerrainData == null) continue;
 
-    return customTerrainData.GetCustomData("buildable").As<bool>();
+      // If the lowest layer is found, then whether it is buildable or not determines the validity of the tile position
+      return customTerrainData.GetCustomData("buildable").As<bool>();
+    }
+
+    // This line will be reached if all layers at this position are null. Then this is a null position hence not valid
+    return false;
+
   }
 
   public bool IsTilePositionBuildable(Vector2I tilePosition)
