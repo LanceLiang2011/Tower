@@ -138,7 +138,7 @@ public partial class GridManager : Node
   private void UpdateValidBuildableTilePositions(BuildingComponent buildingComponent)
   {
     var buildingCellPosition = buildingComponent.GetBuildingCellPosition();
-    var buildingRadius = buildingComponent.BuildingRadius;
+    var buildingRadius = buildingComponent.buildingResource.BuildingRadius;
 
     var validCellsInRadius = GetValidCellsInRadius(buildingCellPosition, buildingRadius);
 

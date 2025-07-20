@@ -1,5 +1,6 @@
 using Godot;
 using Game.Manager;
+using Game.Resources.Building;
 
 namespace Game;
 
@@ -13,11 +14,11 @@ public partial class Main : Node
   private Button placeTowerButton;
   private Node2D ySortRoot;
 
-  // Scenes
-  private PackedScene towerScene;
-  private PackedScene villageScene;
+  // Resources
+  private BuildingResource towerResource;
+  private BuildingResource villageResource;
 
-  private PackedScene buildingSceneToPlace = null;
+  private BuildingResource buildingResourceToPlace = null;
 
   // Variables
   private Vector2I? hoveredTilePosition = null;
@@ -39,7 +40,7 @@ public partial class Main : Node
     if (cursor.Visible && (hoveredTilePosition == null || hoveredTilePosition != gridPosition))
     {
       hoveredTilePosition = gridPosition;
-      gridManager.HighlightExpandedBuildableTiles(hoveredTilePosition.Value, 3);
+      gridManager.HighlightExpandedBuildableTiles(hoveredTilePosition.Value, buildingResourceToPlace.BuildingRadius);
     }
 
 
@@ -64,8 +65,8 @@ public partial class Main : Node
     placeVillageButton = GetNode<Button>("%PlaceVillageButton");
     ySortRoot = GetNode<Node2D>("%YSortRoot");
 
-    towerScene = GD.Load<PackedScene>("res://scenes/building/tower.tscn");
-    villageScene = GD.Load<PackedScene>("res://scenes/building/village.tscn");
+    towerResource = GD.Load<BuildingResource>("res://resources/building/tower_building_resource.tres");
+    villageResource = GD.Load<BuildingResource>("res://resources/building/village_building_resource.tres");
   }
 
   private void ConnectSignals()
@@ -83,10 +84,9 @@ public partial class Main : Node
 
   private void SpawnBuildingOnHoveredGridPosition()
   {
-    if (hoveredTilePosition == null || buildingSceneToPlace == null) return;
+    if (hoveredTilePosition == null || buildingResourceToPlace == null) return;
 
-    var building = buildingSceneToPlace.Instantiate<Node2D>();
-
+    var building = buildingResourceToPlace.BuildingScene.Instantiate<Node2D>();
     ySortRoot.AddChild(building);
 
     building.GlobalPosition = new Vector2(hoveredTilePosition.Value.X, hoveredTilePosition.Value.Y) * gridManager.GRID_SIZE;
@@ -96,14 +96,14 @@ public partial class Main : Node
 
   private void HandleTowerPlacement()
   {
-    buildingSceneToPlace = towerScene;
+    buildingResourceToPlace = towerResource;
     cursor.Visible = true;
     gridManager.HighlightBuildableTiles();
   }
 
   private void HandleVillagePlacement()
   {
-    buildingSceneToPlace = villageScene;
+    buildingResourceToPlace = villageResource;
     cursor.Visible = true;
     gridManager.HighlightBuildableTiles();
   }

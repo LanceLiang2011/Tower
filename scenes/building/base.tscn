@@ -17,4 +17,4 @@ offset = Vector2(-32, -32)
 
 [node name="BuildingComponent" parent="." instance=ExtResource("1_3k3n5")]
 y_sort_enabled = true
-BuildingRadius = 3
+BuildingResourcePath = "uid://clskenjgnepwq"

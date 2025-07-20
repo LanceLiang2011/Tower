@@ -14,4 +14,4 @@ centered = false
 offset = Vector2(-64, -140)
 
 [node name="BuildingComponent" parent="." instance=ExtResource("2_0fggr")]
-BuildingRadius = 1
+BuildingResourcePath = "uid://cxsrj73fl4d01"
