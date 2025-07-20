@@ -110,3 +110,6 @@ temp/
 # Local configuration
 override.cfg
 .fscache
+
+# raw-assets folder
+raw-assets/*

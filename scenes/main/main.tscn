@@ -32,7 +32,6 @@ tile_map_data = PackedByteArray("AAAKAAIAAQAAAAAAAAALAAEAAQAAAAAAAAAJAAEAAQAAAAA
 tile_set = ExtResource("2_k2fmo")
 
 [node name="Base" parent="YSortRoot" instance=ExtResource("5_6q06x")]
-y_sort_enabled = true
 position = Vector2(320, 256)
 
 [node name="HighlightTileMapLayer" type="TileMapLayer" parent="."]
@@ -45,7 +44,7 @@ unique_name_in_owner = true
 texture = SubResource("PlaceholderTexture2D_iuonh")
 centered = false
 
-[node name="PlaceBuildingButton" type="Button" parent="."]
+[node name="PlaceTowerButton" type="Button" parent="."]
 unique_name_in_owner = true
 offset_left = 12.0
 offset_top = 674.0
@@ -53,4 +52,14 @@ offset_right = 129.0
 offset_bottom = 705.0
 size_flags_horizontal = 0
 size_flags_vertical = 8
-text = "Place Building"
+text = "Place Tower"
+
+[node name="PlaceVillageButton" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 10.0
+offset_top = 630.0
+offset_right = 127.0
+offset_bottom = 661.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Place Village"

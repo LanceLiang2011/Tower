@@ -9,11 +9,15 @@ public partial class Main : Node
   // Nodes
   private GridManager gridManager;
   private Sprite2D cursor;
-  private Button placeBuildingButton;
+  private Button placeVillageButton;
+  private Button placeTowerButton;
   private Node2D ySortRoot;
 
   // Scenes
-  private PackedScene buildingScene;
+  private PackedScene towerScene;
+  private PackedScene villageScene;
+
+  private PackedScene buildingSceneToPlace = null;
 
   // Variables
   private Vector2I? hoveredTilePosition = null;
@@ -56,15 +60,18 @@ public partial class Main : Node
   {
     gridManager = GetNode<GridManager>("%GridManager");
     cursor = GetNode<Sprite2D>("%Cursor");
-    placeBuildingButton = GetNode<Button>("%PlaceBuildingButton");
+    placeTowerButton = GetNode<Button>("%PlaceTowerButton");
+    placeVillageButton = GetNode<Button>("%PlaceVillageButton");
     ySortRoot = GetNode<Node2D>("%YSortRoot");
 
-    buildingScene = GD.Load<PackedScene>("res://scenes/building/building.tscn");
+    towerScene = GD.Load<PackedScene>("res://scenes/building/tower.tscn");
+    villageScene = GD.Load<PackedScene>("res://scenes/building/village.tscn");
   }
 
   private void ConnectSignals()
   {
-    placeBuildingButton.Pressed += OnPlaceBuildingButtonPressed;
+    placeTowerButton.Pressed += HandleTowerPlacement;
+    placeVillageButton.Pressed += HandleVillagePlacement;
   }
 
   private void SetupNodes()
@@ -76,9 +83,9 @@ public partial class Main : Node
 
   private void SpawnBuildingOnHoveredGridPosition()
   {
-    if (hoveredTilePosition == null) return;
+    if (hoveredTilePosition == null || buildingSceneToPlace == null) return;
 
-    var building = buildingScene.Instantiate<Node2D>();
+    var building = buildingSceneToPlace.Instantiate<Node2D>();
 
     ySortRoot.AddChild(building);
 
@@ -87,8 +94,16 @@ public partial class Main : Node
 
   }
 
-  private void OnPlaceBuildingButtonPressed()
+  private void HandleTowerPlacement()
   {
+    buildingSceneToPlace = towerScene;
+    cursor.Visible = true;
+    gridManager.HighlightBuildableTiles();
+  }
+
+  private void HandleVillagePlacement()
+  {
+    buildingSceneToPlace = villageScene;
     cursor.Visible = true;
     gridManager.HighlightBuildableTiles();
   }

@@ -6,11 +6,15 @@
 size = Vector2(64, 64)
 
 [node name="Base" type="Node2D"]
+y_sort_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.417394, 0.915318, 0.991976, 1)
+position = Vector2(32, 32)
 texture = SubResource("PlaceholderTexture2D_e7pcx")
 centered = false
+offset = Vector2(-32, -32)
 
 [node name="BuildingComponent" parent="." instance=ExtResource("1_3k3n5")]
+y_sort_enabled = true
 BuildingRadius = 3
