@@ -76,6 +76,8 @@ public partial class Main : Node
   {
     placeTowerButton.Pressed += HandleTowerPlacement;
     placeVillageButton.Pressed += HandleVillagePlacement;
+
+    gridManager.ResourceTilesUpdated += OnResourceTilesUpdated;
   }
 
   private void SetupNodes()
@@ -109,6 +111,11 @@ public partial class Main : Node
     buildingResourceToPlace = villageResource;
     cursor.Visible = true;
     gridManager.HighlightBuildableTiles();
+  }
+
+  private void OnResourceTilesUpdated(int numberOfTilesCollected)
+  {
+    GD.Print($"Number of resource tiles collected: {numberOfTilesCollected}");
   }
 
 }

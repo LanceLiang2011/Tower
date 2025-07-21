@@ -14,6 +14,11 @@ public partial class GridManager : Node
   private const string IS_BUILDABLE = "is_buildable";
   private const string IS_WOOD = "is_wood";
 
+  // Signals
+  [Signal]
+  public delegate void ResourceTilesUpdatedEventHandler(int numberOfTilesCollected);
+
+  // Local data
   private HashSet<Vector2I> validBuildableTilePositions = new();
   private HashSet<Vector2I> collectedResourceTilePositions = new();
 
@@ -190,7 +195,13 @@ public partial class GridManager : Node
     var buildingCellPosition = buildingComponent.GetBuildingCellPosition();
     var resourceTiles = GetResourceTilesInRadius(buildingCellPosition, buildingComponent.buildingResource.ResourceCollectionRadius);
 
+    var oldTileCount = collectedResourceTilePositions.Count;
+
     collectedResourceTilePositions.UnionWith(resourceTiles);
+
+    var newTileCount = collectedResourceTilePositions.Count;
+
+    if (newTileCount != oldTileCount) EmitSignal(SignalName.ResourceTilesUpdated, collectedResourceTilePositions.Count);
   }
 
   private IEnumerable<Vector2I> GetBuildingOccupiesPositions()
@@ -233,5 +244,6 @@ public partial class GridManager : Node
   private void OnBuildingPlaced(BuildingComponent buildingComponent)
   {
     UpdateValidBuildableTilePositions(buildingComponent);
+    UpdateCollectedResourceTilePositions(buildingComponent);
   }
 }
