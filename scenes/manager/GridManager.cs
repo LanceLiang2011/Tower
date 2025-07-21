@@ -9,6 +9,10 @@ namespace Game.Manager;
 
 public partial class GridManager : Node
 {
+  // Constants
+  private const string IS_BUILDABLE = "is_buildable";
+  private const string IS_WOOD = "is_wood";
+
   private HashSet<Vector2I> validBuildableTilePositions = new();
 
 
@@ -82,12 +86,32 @@ public partial class GridManager : Node
     }
   }
 
+
+
+  public void HighlightResourceTiles(Vector2I rootCellPosition, int radius)
+  {
+
+    var resourceTilesInRadius = GetResourceTilesInRadius(rootCellPosition, radius);
+
+
+    var atlasCoords = new Vector2I(1, 0);
+
+    foreach (var expandedCell in resourceTilesInRadius)
+    {
+      highlightTileMapLayer.SetCell(
+        expandedCell,
+        0,
+        atlasCoords
+      );
+    }
+  }
+
   public void HighlightExpandedBuildableTiles(Vector2I rootCellPosition, int radius)
   {
-    highlightTileMapLayer.Clear();
+
     HighlightBuildableTiles();
 
-    var validCellsInRadius = GetValidCellsInRadius(rootCellPosition, radius).ToHashSet();
+    var validCellsInRadius = GetValidTilesInRadius(rootCellPosition, radius).ToHashSet();
     var expandedCellsPosition = validCellsInRadius.Except(validBuildableTilePositions).Except(GetBuildingOccupiesPositions());
 
 
@@ -121,12 +145,29 @@ public partial class GridManager : Node
       if (customTerrainData == null) continue;
 
       // If the lowest layer is found, then whether it is buildable or not determines the validity of the tile position
-      return customTerrainData.GetCustomData("is_buildable").As<bool>();
+      return customTerrainData.GetCustomData(IS_BUILDABLE).As<bool>();
     }
 
     // This line will be reached if all layers at this position are null. Then this is a null position hence not valid
     return false;
 
+  }
+
+  private bool IsTilePositionResource(Vector2I tilePosition)
+  {
+    foreach (var layer in allTileMapLayers)
+    {
+      var customTerrainData = layer.GetCellTileData(tilePosition);
+
+      // If the tile is not found, we should check next next layer which is the higher layer in hierarchy
+      if (customTerrainData == null) continue;
+
+      // If the lowest layer is found, then whether it is buildable or not determines the validity of the tile position
+      return customTerrainData.GetCustomData(IS_WOOD).As<bool>();
+    }
+
+    // This line will be reached if all layers at this position are null. Then this is a null position hence not valid
+    return false;
   }
 
   public bool IsTilePositionBuildable(Vector2I tilePosition)
@@ -140,7 +181,7 @@ public partial class GridManager : Node
     var buildingCellPosition = buildingComponent.GetBuildingCellPosition();
     var buildingRadius = buildingComponent.buildingResource.BuildingRadius;
 
-    var validCellsInRadius = GetValidCellsInRadius(buildingCellPosition, buildingRadius);
+    var validCellsInRadius = GetValidTilesInRadius(buildingCellPosition, buildingRadius);
 
     validBuildableTilePositions.UnionWith(validCellsInRadius);
 
@@ -156,9 +197,9 @@ public partial class GridManager : Node
     return allBuildingComponents.Select(b => b.GetBuildingCellPosition());
   }
 
-  private List<Vector2I> GetValidCellsInRadius(Vector2I center, int radius)
+  private List<Vector2I> GetValidTilesInRadius(Vector2I center, int radius)
   {
-    var validCells = new List<Vector2I>();
+    var validTiles = new List<Vector2I>();
 
     for (int x = center.X - radius; x <= center.X + radius; x++)
     {
@@ -168,12 +209,32 @@ public partial class GridManager : Node
 
         if (IsTilePositionValid(tilePosition))
         {
-          validCells.Add(tilePosition);
+          validTiles.Add(tilePosition);
         }
       }
     }
 
-    return validCells;
+    return validTiles;
+  }
+
+  private List<Vector2I> GetResourceTilesInRadius(Vector2I center, int radius)
+  {
+    var resourceTiles = new List<Vector2I>();
+
+    for (int x = center.X - radius; x <= center.X + radius; x++)
+    {
+      for (int y = center.Y - radius; y <= center.Y + radius; y++)
+      {
+        var tilePosition = new Vector2I(x, y);
+
+        if (IsTilePositionResource(tilePosition))
+        {
+          resourceTiles.Add(tilePosition);
+        }
+      }
+    }
+
+    return resourceTiles;
   }
 
   private void OnBuildingPlaced(BuildingComponent buildingComponent)

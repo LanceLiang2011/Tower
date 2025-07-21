@@ -40,7 +40,10 @@ public partial class Main : Node
     if (cursor.Visible && (hoveredTilePosition == null || hoveredTilePosition != gridPosition))
     {
       hoveredTilePosition = gridPosition;
+
+      gridManager.ClearHighlightedTiles();
       gridManager.HighlightExpandedBuildableTiles(hoveredTilePosition.Value, buildingResourceToPlace.BuildingRadius);
+      gridManager.HighlightResourceTiles(hoveredTilePosition.Value, buildingResourceToPlace.ResourceCollectionRadius);
     }
 
 
