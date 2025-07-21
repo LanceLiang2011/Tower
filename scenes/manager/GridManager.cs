@@ -121,7 +121,7 @@ public partial class GridManager : Node
       if (customTerrainData == null) continue;
 
       // If the lowest layer is found, then whether it is buildable or not determines the validity of the tile position
-      return customTerrainData.GetCustomData("buildable").As<bool>();
+      return customTerrainData.GetCustomData("is_buildable").As<bool>();
     }
 
     // This line will be reached if all layers at this position are null. Then this is a null position hence not valid
