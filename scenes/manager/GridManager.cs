@@ -1,6 +1,7 @@
 using Game.Components;
 using Game.Events;
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -134,8 +135,7 @@ public partial class GridManager : Node
     highlightTileMapLayer.Clear();
   }
 
-
-  private bool IsTilePositionValid(Vector2I tilePosition)
+  private bool IsTileWithCustomData(Vector2I tilePosition, string customDataKey)
   {
     foreach (var layer in allTileMapLayers)
     {
@@ -144,30 +144,24 @@ public partial class GridManager : Node
       // If the tile is not found, we should check next next layer which is the higher layer in hierarchy
       if (customTerrainData == null) continue;
 
-      // If the lowest layer is found, then whether it is buildable or not determines the validity of the tile position
-      return customTerrainData.GetCustomData(IS_BUILDABLE).As<bool>();
+      // If the lowest layer is found, then whether it has the custom data key determines the validity of the tile position
+      return customTerrainData.GetCustomData(customDataKey).As<bool>();
     }
 
     // This line will be reached if all layers at this position are null. Then this is a null position hence not valid
     return false;
+  }
+
+
+  private bool IsTilePositionValid(Vector2I tilePosition)
+  {
+    return IsTileWithCustomData(tilePosition, IS_BUILDABLE);
 
   }
 
   private bool IsTilePositionResource(Vector2I tilePosition)
   {
-    foreach (var layer in allTileMapLayers)
-    {
-      var customTerrainData = layer.GetCellTileData(tilePosition);
-
-      // If the tile is not found, we should check next next layer which is the higher layer in hierarchy
-      if (customTerrainData == null) continue;
-
-      // If the lowest layer is found, then whether it is buildable or not determines the validity of the tile position
-      return customTerrainData.GetCustomData(IS_WOOD).As<bool>();
-    }
-
-    // This line will be reached if all layers at this position are null. Then this is a null position hence not valid
-    return false;
+    return IsTileWithCustomData(tilePosition, IS_WOOD);
   }
 
   public bool IsTilePositionBuildable(Vector2I tilePosition)
@@ -197,9 +191,9 @@ public partial class GridManager : Node
     return allBuildingComponents.Select(b => b.GetBuildingCellPosition());
   }
 
-  private List<Vector2I> GetValidTilesInRadius(Vector2I center, int radius)
+  private List<Vector2I> GetTilesInRadius(Vector2I center, int radius, Func<Vector2I, bool> predicate)
   {
-    var validTiles = new List<Vector2I>();
+    var tiles = new List<Vector2I>();
 
     for (int x = center.X - radius; x <= center.X + radius; x++)
     {
@@ -207,34 +201,24 @@ public partial class GridManager : Node
       {
         var tilePosition = new Vector2I(x, y);
 
-        if (IsTilePositionValid(tilePosition))
+        if (predicate(tilePosition))
         {
-          validTiles.Add(tilePosition);
+          tiles.Add(tilePosition);
         }
       }
     }
 
-    return validTiles;
+    return tiles;
+  }
+
+  private List<Vector2I> GetValidTilesInRadius(Vector2I center, int radius)
+  {
+    return GetTilesInRadius(center, radius, IsTilePositionValid);
   }
 
   private List<Vector2I> GetResourceTilesInRadius(Vector2I center, int radius)
   {
-    var resourceTiles = new List<Vector2I>();
-
-    for (int x = center.X - radius; x <= center.X + radius; x++)
-    {
-      for (int y = center.Y - radius; y <= center.Y + radius; y++)
-      {
-        var tilePosition = new Vector2I(x, y);
-
-        if (IsTilePositionResource(tilePosition))
-        {
-          resourceTiles.Add(tilePosition);
-        }
-      }
-    }
-
-    return resourceTiles;
+    return GetTilesInRadius(center, radius, IsTilePositionResource);
   }
 
   private void OnBuildingPlaced(BuildingComponent buildingComponent)
