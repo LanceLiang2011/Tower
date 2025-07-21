@@ -15,6 +15,7 @@ public partial class GridManager : Node
   private const string IS_WOOD = "is_wood";
 
   private HashSet<Vector2I> validBuildableTilePositions = new();
+  private HashSet<Vector2I> collectedResourceTilePositions = new();
 
 
   public float GRID_SIZE = 64f;
@@ -182,6 +183,14 @@ public partial class GridManager : Node
     var allBuildingComponents = GetTree().GetNodesInGroup(nameof(BuildingComponent)).Cast<BuildingComponent>();
 
     validBuildableTilePositions.ExceptWith(GetBuildingOccupiesPositions());
+  }
+
+  private void UpdateCollectedResourceTilePositions(BuildingComponent buildingComponent)
+  {
+    var buildingCellPosition = buildingComponent.GetBuildingCellPosition();
+    var resourceTiles = GetResourceTilesInRadius(buildingCellPosition, buildingComponent.buildingResource.ResourceCollectionRadius);
+
+    collectedResourceTilePositions.UnionWith(resourceTiles);
   }
 
   private IEnumerable<Vector2I> GetBuildingOccupiesPositions()
