@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_a2pil")
+BuildingName = "Tower"
 BuildingRadius = 3
 ResourceCollectionRadius = 0
 BuildingScene = ExtResource("1_lvngq")

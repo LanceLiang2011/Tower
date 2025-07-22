@@ -6,6 +6,9 @@ namespace Game.Resources.Building;
 public partial class BuildingResource : Resource
 {
   [Export]
+  public string BuildingName { get; private set; }
+
+  [Export]
   public int BuildingRadius { get; private set; }
 
   [Export]

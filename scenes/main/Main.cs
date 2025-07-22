@@ -1,6 +1,7 @@
 using Godot;
 using Game.Manager;
 using Game.Resources.Building;
+using Game.UI;
 
 namespace Game;
 
@@ -10,9 +11,8 @@ public partial class Main : Node
   // Nodes
   private GridManager gridManager;
   private Sprite2D cursor;
-  private Button placeVillageButton;
-  private Button placeTowerButton;
   private Node2D ySortRoot;
+  private GameUi gameUi;
 
   // Resources
   private BuildingResource towerResource;
@@ -64,9 +64,8 @@ public partial class Main : Node
   {
     gridManager = GetNode<GridManager>("%GridManager");
     cursor = GetNode<Sprite2D>("%Cursor");
-    placeTowerButton = GetNode<Button>("%PlaceTowerButton");
-    placeVillageButton = GetNode<Button>("%PlaceVillageButton");
     ySortRoot = GetNode<Node2D>("%YSortRoot");
+    gameUi = GetNode<GameUi>("%GameUI");
 
     towerResource = GD.Load<BuildingResource>("res://resources/building/tower_building_resource.tres");
     villageResource = GD.Load<BuildingResource>("res://resources/building/village_building_resource.tres");
@@ -74,10 +73,8 @@ public partial class Main : Node
 
   private void ConnectSignals()
   {
-    placeTowerButton.Pressed += HandleTowerPlacement;
-    placeVillageButton.Pressed += HandleVillagePlacement;
-
     gridManager.ResourceTilesUpdated += OnResourceTilesUpdated;
+    gameUi.PlaceBuildingButtonPressed += HandleTowerBuildingPlacement;
   }
 
   private void SetupNodes()
@@ -99,19 +96,13 @@ public partial class Main : Node
 
   }
 
-  private void HandleTowerPlacement()
+  private void HandleTowerBuildingPlacement(BuildingResource buildingResource)
   {
-    buildingResourceToPlace = towerResource;
+    buildingResourceToPlace = buildingResource;
     cursor.Visible = true;
     gridManager.HighlightBuildableTiles();
   }
 
-  private void HandleVillagePlacement()
-  {
-    buildingResourceToPlace = villageResource;
-    cursor.Visible = true;
-    gridManager.HighlightBuildableTiles();
-  }
 
   private void OnResourceTilesUpdated(int numberOfTilesCollected)
   {
