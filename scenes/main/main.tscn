@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://ca3lojy2826fu"]
+[gd_scene load_steps=9 format=4 uid="uid://ca3lojy2826fu"]
 
 [ext_resource type="Script" uid="uid://cewiqfoj88nfc" path="res://scenes/main/Main.cs" id="1_hyk8p"]
 [ext_resource type="TileSet" uid="uid://bs1r3cxd5nwes" path="res://resources/highlight_tileset.tres" id="2_iuonh"]
 [ext_resource type="TileSet" uid="uid://dt1koita1s043" path="res://resources/tiles.tres" id="2_k2fmo"]
 [ext_resource type="PackedScene" uid="uid://f4ilmophypy3" path="res://scenes/manager/GridManager.tscn" id="2_l3cfh"]
+[ext_resource type="PackedScene" uid="uid://d2oyhtmunxohd" path="res://scenes/manager/building_manager.tscn" id="3_hujxm"]
 [ext_resource type="PackedScene" uid="uid://hoosyv65gdic" path="res://scenes/building/base.tscn" id="5_6q06x"]
 [ext_resource type="PackedScene" uid="uid://c5y4urpt56mtw" path="res://scenes/UI/game_ui.tscn" id="6_ow5a4"]
 
@@ -14,12 +15,16 @@ size = Vector2(64, 64)
 script = ExtResource("1_hyk8p")
 
 [node name="GridManager" parent="." node_paths=PackedStringArray("highlightTileMapLayer", "baseTerrainTileMapLayer") instance=ExtResource("2_l3cfh")]
-unique_name_in_owner = true
 highlightTileMapLayer = NodePath("../HighlightTileMapLayer")
 baseTerrainTileMapLayer = NodePath("../YSortRoot/BaseTerrainTileMapLayer")
 
+[node name="BuildingManager" parent="." node_paths=PackedStringArray("gridManager", "gameUi", "ySortRoot", "cursor") instance=ExtResource("3_hujxm")]
+gridManager = NodePath("../GridManager")
+gameUi = NodePath("../GameUI")
+ySortRoot = NodePath("../YSortRoot")
+cursor = NodePath("../Cursor")
+
 [node name="YSortRoot" type="Node2D" parent="."]
-unique_name_in_owner = true
 y_sort_enabled = true
 
 [node name="BaseTerrainTileMapLayer" type="TileMapLayer" parent="YSortRoot"]
@@ -36,14 +41,11 @@ tile_set = ExtResource("2_k2fmo")
 position = Vector2(320, 256)
 
 [node name="HighlightTileMapLayer" type="TileMapLayer" parent="."]
-unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.470588)
 tile_set = ExtResource("2_iuonh")
 
 [node name="Cursor" type="Sprite2D" parent="."]
-unique_name_in_owner = true
 texture = SubResource("PlaceholderTexture2D_iuonh")
 centered = false
 
 [node name="GameUI" parent="." instance=ExtResource("6_ow5a4")]
-unique_name_in_owner = true
