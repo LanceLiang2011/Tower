@@ -8,5 +8,6 @@ script = ExtResource("1_a2pil")
 BuildingName = "Tower"
 BuildingRadius = 3
 ResourceCollectionRadius = 0
+ResourceCost = 2
 BuildingScene = ExtResource("1_lvngq")
 metadata/_custom_type_script = "uid://bkrn4uo5jsn6v"

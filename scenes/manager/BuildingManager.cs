@@ -18,13 +18,12 @@ public partial class BuildingManager : Node
 
   // Variables
   private Vector2I? hoveredTilePosition = null;
-
-
   private BuildingResource buildingResourceToPlace = null;
-
-
   private int currentResourceCount;
   private int startingResourceCount = 4; // TODO: Remove hardcoded value
+  private int currentlyUsedResourceCount;
+
+  private int AvailableResourceCount => startingResourceCount + currentResourceCount - currentlyUsedResourceCount;
 
 
   public override void _Ready()
@@ -53,7 +52,10 @@ public partial class BuildingManager : Node
 
   public override void _UnhandledInput(InputEvent evt)
   {
-    if (hoveredTilePosition.HasValue && evt.IsActionPressed("left_click") && gridManager.IsTilePositionBuildable(hoveredTilePosition.Value))
+    if (hoveredTilePosition.HasValue &&
+    evt.IsActionPressed("left_click") &&
+    gridManager.IsTilePositionBuildable(hoveredTilePosition.Value) &&
+    AvailableResourceCount >= buildingResourceToPlace.ResourceCost)
     {
       SpawnBuildingOnHoveredGridPosition();
       cursor.Visible = false;
@@ -92,6 +94,10 @@ public partial class BuildingManager : Node
   {
     if (hoveredTilePosition == null || buildingResourceToPlace == null) return;
 
+    // charge resource cost first
+    currentlyUsedResourceCount += buildingResourceToPlace.ResourceCost;
+
+    // Okay you pay the cost now let's build the building
     var building = buildingResourceToPlace.BuildingScene.Instantiate<Node2D>();
     ySortRoot.AddChild(building);
 
