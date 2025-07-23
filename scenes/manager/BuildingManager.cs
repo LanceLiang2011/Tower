@@ -20,7 +20,7 @@ public partial class BuildingManager : Node
   private Vector2I? hoveredTilePosition = null;
   private BuildingResource buildingResourceToPlace = null;
   private int currentResourceCount;
-  private int startingResourceCount = 4; // TODO: Remove hardcoded value
+  private int startingResourceCount = 6; // TODO: Remove hardcoded value
   private int currentlyUsedResourceCount;
 
   private int AvailableResourceCount => startingResourceCount + currentResourceCount - currentlyUsedResourceCount;
@@ -96,6 +96,7 @@ public partial class BuildingManager : Node
 
     // charge resource cost first
     currentlyUsedResourceCount += buildingResourceToPlace.ResourceCost;
+    GD.Print($"Now the resource we have left is: {AvailableResourceCount}"); // TODO: Remove debug print
 
     // Okay you pay the cost now let's build the building
     var building = buildingResourceToPlace.BuildingScene.Instantiate<Node2D>();
