@@ -77,6 +77,11 @@ public partial class BuildingManager : Node
     {
       SpawnBuildingOnHoveredGridPosition();
     }
+
+    if (evt.IsActionPressed("cancel_building_placement"))
+    {
+      ClearGhostAndHighlight();
+    }
   }
 
 
