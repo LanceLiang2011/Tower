@@ -81,7 +81,6 @@ public partial class BuildingManager : Node
     {
       SpawnBuildingOnHoveredGridPosition();
     }
-
   }
 
 
