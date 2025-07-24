@@ -140,9 +140,12 @@ public partial class BuildingManager : Node
     // Clear the highlighted tiles
     gridManager.ClearHighlightedTiles();
 
-    // Remove the ghost buildingß
-    buildingGhostInstance?.QueueFree();
-    buildingGhostInstance = null;
+    // Remove the ghost building if they exist
+    if (IsInstanceValid(buildingGhostInstance))
+    {
+      buildingGhostInstance?.QueueFree();
+      buildingGhostInstance = null;
+    }
   }
 
 
