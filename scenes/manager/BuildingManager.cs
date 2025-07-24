@@ -71,17 +71,17 @@ public partial class BuildingManager : Node
 
   public override void _UnhandledInput(InputEvent evt)
   {
-    if (hoveredTilePosition.HasValue &&
+    if (evt.IsActionPressed("cancel_building_placement"))
+    {
+      ClearGhostAndHighlight();
+    }
+    else if (hoveredTilePosition.HasValue &&
     evt.IsActionPressed("left_click") &&
     IsBuildingPlaceableOnTile(hoveredTilePosition.Value))
     {
       SpawnBuildingOnHoveredGridPosition();
     }
 
-    if (evt.IsActionPressed("cancel_building_placement"))
-    {
-      ClearGhostAndHighlight();
-    }
   }
 
 
