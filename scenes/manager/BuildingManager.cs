@@ -129,14 +129,21 @@ public partial class BuildingManager : Node
     ySortRoot.AddChild(building);
     building.GlobalPosition = new Vector2(hoveredTilePosition.Value.X, hoveredTilePosition.Value.Y) * gridManager.GRID_SIZE;
 
+    ClearGhostAndHighlight();
+  }
+
+  private void ClearGhostAndHighlight()
+  {
     // Clear the hovered tile position after placing the building
     hoveredTilePosition = null;
 
     // Clear the highlighted tiles
     gridManager.ClearHighlightedTiles();
 
-    // Remove the ghost building
+    // Remove the ghost buildingß
     buildingGhostInstance?.QueueFree();
     buildingGhostInstance = null;
   }
+
+
 }
