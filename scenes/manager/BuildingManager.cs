@@ -76,7 +76,6 @@ public partial class BuildingManager : Node
     IsBuildingPlaceableOnTile(hoveredTilePosition.Value))
     {
       SpawnBuildingOnHoveredGridPosition();
-      hoveredTilePosition = null;
       gridManager.ClearHighlightedTiles();
     }
   }
@@ -129,8 +128,10 @@ public partial class BuildingManager : Node
     // Okay you pay the cost now let's build the building
     var building = buildingResourceToPlace.BuildingScene.Instantiate<Node2D>();
     ySortRoot.AddChild(building);
-
     building.GlobalPosition = new Vector2(hoveredTilePosition.Value.X, hoveredTilePosition.Value.Y) * gridManager.GRID_SIZE;
+
+    // Clear the hovered tile position after placing the building
+    hoveredTilePosition = null;
 
     // Remove the ghost building
     buildingGhostInstance?.QueueFree();
