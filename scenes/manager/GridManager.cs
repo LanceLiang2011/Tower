@@ -115,9 +115,6 @@ public partial class GridManager : Node
 
   public void HighlightExpandedBuildableTiles(Vector2I rootCellPosition, int radius)
   {
-
-    HighlightBuildableTiles();
-
     var validCellsInRadius = GetValidTilesInRadius(rootCellPosition, radius).ToHashSet();
     var expandedCellsPosition = validCellsInRadius.Except(validBuildableTilePositions).Except(GetBuildingOccupiesPositions());
 
