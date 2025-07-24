@@ -76,7 +76,6 @@ public partial class BuildingManager : Node
     IsBuildingPlaceableOnTile(hoveredTilePosition.Value))
     {
       SpawnBuildingOnHoveredGridPosition();
-      gridManager.ClearHighlightedTiles();
     }
   }
 
@@ -132,6 +131,9 @@ public partial class BuildingManager : Node
 
     // Clear the hovered tile position after placing the building
     hoveredTilePosition = null;
+
+    // Clear the highlighted tiles
+    gridManager.ClearHighlightedTiles();
 
     // Remove the ghost building
     buildingGhostInstance?.QueueFree();
