@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading;
 using Game.Building;
 using Game.Components;
+using Game.Events;
 using Game.Resources.Building;
 using Game.UI;
 using Godot;
@@ -222,6 +223,8 @@ public partial class BuildingManager : Node
 
     // Remove the used resource count
     currentlyUsedResourceCount -= building.buildingResource.ResourceCost;
+    // Emit the building destroyed event
+    GameEvents.EmitBuildingDestroyed(building);
     // Destroy the building scene
     building.DestroyBuilding();
   }
