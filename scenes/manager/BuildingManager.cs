@@ -219,6 +219,10 @@ public partial class BuildingManager : Node
 
     if (building == null) return;
 
+
+    // Remove the used resource count
+    currentlyUsedResourceCount -= building.buildingResource.ResourceCost;
+    // Destroy the building scene
     building.DestroyBuilding();
   }
 
