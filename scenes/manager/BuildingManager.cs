@@ -1,4 +1,7 @@
+using System.Linq;
+using System.Threading;
 using Game.Building;
+using Game.Components;
 using Game.Resources.Building;
 using Game.UI;
 using Godot;
@@ -211,6 +214,12 @@ public partial class BuildingManager : Node
 
   private void DestroyBuildingOnHoveredGridPosition()
   {
+    var building = GetTree().GetNodesInGroup(nameof(BuildingComponent)).Cast<BuildingComponent>()
+    .FirstOrDefault(b => b.GetBuildingCellPosition() == hoveredTilePosition);
+
+    if (building == null) return;
+
+    building.DestroyBuilding();
   }
 
   private void ClearGhostAndHighlight()

@@ -33,4 +33,9 @@ public partial class BuildingComponent : Node2D
     var positionAsFloat = (position / GRID_SIZE).Floor();
     return new Vector2I((int)positionAsFloat.X, (int)positionAsFloat.Y);
   }
+
+  public void DestroyBuilding()
+  {
+    Owner.QueueFree();
+  }
 }
