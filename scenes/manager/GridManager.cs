@@ -214,13 +214,18 @@ public partial class GridManager : Node
   {
     validBuildableTilePositions.Clear();
     occupiedTilePositions.Clear();
+    collectedResourceTilePositions.Clear();
 
     var buildingComponents = GetTree().GetNodesInGroup(nameof(BuildingComponent)).Cast<BuildingComponent>().Where(b => b != buildingToDestroy);
 
     foreach (var buildingComponent in buildingComponents)
     {
       UpdateValidBuildableTilePositions(buildingComponent);
+      UpdateCollectedResourceTilePositions(buildingComponent);
     }
+
+    // Emit the signal with the updated count of collected resource tiles
+    EmitSignal(SignalName.ResourceTilesUpdated, collectedResourceTilePositions.Count);
   }
 
 
