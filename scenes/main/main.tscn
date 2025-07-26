@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d3ddrrtn8w1ha" path="res://scenes/building/building_ghost.tscn" id="4_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://hoosyv65gdic" path="res://scenes/building/base.tscn" id="5_6q06x"]
 [ext_resource type="PackedScene" uid="uid://c5y4urpt56mtw" path="res://scenes/UI/game_ui.tscn" id="6_ow5a4"]
-[ext_resource type="PackedScene" uid="uid://ewyk720m4ks8" path="res://scenes/gold-mine/gold_mine.tscn" id="9_b1x3f"]
+[ext_resource type="PackedScene" uid="uid://ewyk720m4ks8" path="res://scenes/special/gold_mine.tscn" id="9_b1x3f"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_hyk8p")

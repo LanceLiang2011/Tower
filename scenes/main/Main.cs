@@ -1,13 +1,13 @@
 using Godot;
 using Game.Manager;
-using Game.Resources.Building;
+using Game.Special;
 
 namespace Game;
 
 public partial class Main : Node
 {
   private GridManager gridManager;
-  private Node2D goldMine;
+  private GoldMine goldMine;
 
   public override void _Ready()
   {
@@ -18,7 +18,7 @@ public partial class Main : Node
   private void GetNodes()
   {
     gridManager = GetNode<GridManager>("%GridManager");
-    goldMine = GetNode<Node2D>("%GoldMine");
+    goldMine = GetNode<GoldMine>("%GoldMine");
   }
 
   private void ConnectSignals()
@@ -37,11 +37,9 @@ public partial class Main : Node
     if (gridManager.IsTilePositionBuildable(goldMineCellPosition))
     {
       GD.Print("Gold Mine is in a valid buildable position.");
+      goldMine.SetActiveTexture();
     }
-    else
-    {
-      GD.Print("Gold Mine is NOT in a valid buildable position.");
-    }
+
   }
 }
 
