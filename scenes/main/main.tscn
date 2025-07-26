@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://ca3lojy2826fu"]
+[gd_scene load_steps=10 format=4 uid="uid://ca3lojy2826fu"]
 
 [ext_resource type="Script" uid="uid://cewiqfoj88nfc" path="res://scenes/main/Main.cs" id="1_hyk8p"]
 [ext_resource type="TileSet" uid="uid://bs1r3cxd5nwes" path="res://resources/highlight_tileset.tres" id="2_iuonh"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d3ddrrtn8w1ha" path="res://scenes/building/building_ghost.tscn" id="4_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://hoosyv65gdic" path="res://scenes/building/base.tscn" id="5_6q06x"]
 [ext_resource type="PackedScene" uid="uid://c5y4urpt56mtw" path="res://scenes/UI/game_ui.tscn" id="6_ow5a4"]
+[ext_resource type="PackedScene" uid="uid://ewyk720m4ks8" path="res://scenes/gold_mine.tscn" id="9_b1x3f"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_hyk8p")
@@ -37,6 +38,9 @@ tile_set = ExtResource("2_k2fmo")
 
 [node name="Base" parent="YSortRoot" instance=ExtResource("5_6q06x")]
 position = Vector2(320, 256)
+
+[node name="GoldMine" parent="YSortRoot" instance=ExtResource("9_b1x3f")]
+position = Vector2(960, 448)
 
 [node name="HighlightTileMapLayer" type="TileMapLayer" parent="."]
 modulate = Color(1, 1, 1, 0.470588)

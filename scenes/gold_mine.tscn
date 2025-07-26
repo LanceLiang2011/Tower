@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://ewyk720m4ks8"]
+
+[ext_resource type="Texture2D" uid="uid://dgesf55w6mim5" path="res://assets/GoldMine_Inactive.png" id="1_onqde"]
+
+[node name="GoldMine" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(32, 32)
+texture = ExtResource("1_onqde")
+centered = false
+offset = Vector2(-96, -96)
