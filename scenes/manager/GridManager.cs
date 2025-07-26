@@ -17,6 +17,8 @@ public partial class GridManager : Node
   // Signals
   [Signal]
   public delegate void ResourceTilesUpdatedEventHandler(int numberOfTilesCollected);
+  [Signal]
+  public delegate void GridStateUpdatedEventHandler();
 
   // Local data
   private HashSet<Vector2I> validBuildableTilePositions = new();
@@ -194,6 +196,8 @@ public partial class GridManager : Node
     var allBuildingComponents = GetTree().GetNodesInGroup(nameof(BuildingComponent)).Cast<BuildingComponent>();
 
     validBuildableTilePositions.ExceptWith(occupiedTilePositions);
+
+    EmitSignal(SignalName.GridStateUpdated);
   }
 
   private void UpdateCollectedResourceTilePositions(BuildingComponent buildingComponent)
@@ -208,6 +212,8 @@ public partial class GridManager : Node
     var newTileCount = collectedResourceTilePositions.Count;
 
     if (newTileCount != oldTileCount) EmitSignal(SignalName.ResourceTilesUpdated, collectedResourceTilePositions.Count);
+
+    EmitSignal(SignalName.GridStateUpdated);
   }
 
   private void RecalculateGrids(BuildingComponent buildingToDestroy)
@@ -226,6 +232,7 @@ public partial class GridManager : Node
 
     // Emit the signal with the updated count of collected resource tiles
     EmitSignal(SignalName.ResourceTilesUpdated, collectedResourceTilePositions.Count);
+    EmitSignal(SignalName.GridStateUpdated);
   }
 
 
