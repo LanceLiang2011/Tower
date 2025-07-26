@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Tower"
-run/main_scene="uid://ca3lojy2826fu"
+run/main_scene="uid://bxfbpq03av0kd"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
 
