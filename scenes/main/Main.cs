@@ -12,6 +12,7 @@ public partial class Main : Node
   public override void _Ready()
   {
     GetNodes();
+    ConnectSignals();
   }
 
   private void GetNodes()
@@ -19,4 +20,28 @@ public partial class Main : Node
     gridManager = GetNode<GridManager>("%GridManager");
     goldMine = GetNode<Node2D>("%GoldMine");
   }
+
+  private void ConnectSignals()
+  {
+    gridManager.GridStateUpdated += OnGridManagerGridStateUpdated;
+  }
+
+
+
+  private void OnGridManagerGridStateUpdated()
+  {
+    // Check if the gold mine cell position is in gridManager's validBuildableTilePositions hash set
+
+    var goldMineCellPosition = gridManager.GetGridPositionFromPosition(goldMine.GlobalPosition);
+
+    if (gridManager.IsTilePositionBuildable(goldMineCellPosition))
+    {
+      GD.Print("Gold Mine is in a valid buildable position.");
+    }
+    else
+    {
+      GD.Print("Gold Mine is NOT in a valid buildable position.");
+    }
+  }
 }
+

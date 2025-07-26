@@ -25,7 +25,6 @@ public partial class GridManager : Node
   private HashSet<Vector2I> collectedResourceTilePositions = new();
   private HashSet<Vector2I> occupiedTilePositions = new();
 
-
   public float GRID_SIZE = 64f;
 
 
@@ -146,6 +145,8 @@ public partial class GridManager : Node
   {
     highlightTileMapLayer.Clear();
   }
+
+
 
   private bool IsTileWithCustomData(Vector2I tilePosition, string customDataKey)
   {
@@ -275,5 +276,10 @@ public partial class GridManager : Node
   private void OnBuildingDestroyed(BuildingComponent buildingComponent)
   {
     RecalculateGrids(buildingComponent);
+  }
+
+  internal void Connect(StringName resourceTilesUpdated, object onGridManagerResourceTilesUpdated)
+  {
+    throw new NotImplementedException();
   }
 }
