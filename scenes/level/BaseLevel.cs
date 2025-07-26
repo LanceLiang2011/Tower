@@ -4,7 +4,7 @@ using Game.Special;
 
 namespace Game;
 
-public partial class Main : Node
+public partial class BaseLevel : Node
 {
   private GridManager gridManager;
   private GoldMine goldMine;
