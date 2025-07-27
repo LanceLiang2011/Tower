@@ -4,7 +4,7 @@ using Godot;
 
 namespace Game.UI;
 
-public partial class GameUi : MarginContainer
+public partial class GameUi : CanvasLayer
 {
   [Export]
   private Godot.Collections.Array<BuildingResource> buildingResources;
