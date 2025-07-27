@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://ca3lojy2826fu"]
+[gd_scene load_steps=11 format=3 uid="uid://ca3lojy2826fu"]
 
 [ext_resource type="Script" uid="uid://cewiqfoj88nfc" path="res://scenes/level/BaseLevel.cs" id="1_hyk8p"]
+[ext_resource type="PackedScene" uid="uid://bhjwbtjebejgg" path="res://scenes/pan_camera.tscn" id="2_fjnsi"]
 [ext_resource type="TileSet" uid="uid://bs1r3cxd5nwes" path="res://resources/highlight_tileset.tres" id="2_iuonh"]
 [ext_resource type="TileSet" uid="uid://dt1koita1s043" path="res://resources/tiles.tres" id="2_k2fmo"]
 [ext_resource type="PackedScene" uid="uid://f4ilmophypy3" path="res://scenes/manager/GridManager.tscn" id="2_l3cfh"]
@@ -12,6 +13,8 @@
 
 [node name="BaseLevel" type="Node"]
 script = ExtResource("1_hyk8p")
+
+[node name="PanCamera" parent="." instance=ExtResource("2_fjnsi")]
 
 [node name="GridManager" parent="." node_paths=PackedStringArray("highlightTileMapLayer", "baseTerrainTileMapLayer") instance=ExtResource("2_l3cfh")]
 unique_name_in_owner = true

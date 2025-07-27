@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhjwbtjebejgg"]
+
+[ext_resource type="Script" uid="uid://g07jwvxnl400" path="res://scenes/PanCamera.cs" id="1_lx5e7"]
+
+[node name="PanCamera" type="Camera2D"]
+script = ExtResource("1_lx5e7")
