@@ -11,6 +11,7 @@ public partial class BaseLevel : Node
   private GoldMine goldMine;
   private PanCamera panCamera;
   private TileMapLayer baseTerrainTileMapLayer;
+  private Node2D baseBuilding;
 
   public override void _Ready()
   {
@@ -25,11 +26,13 @@ public partial class BaseLevel : Node
     goldMine = GetNode<GoldMine>("%GoldMine");
     panCamera = GetNode<PanCamera>("%PanCamera");
     baseTerrainTileMapLayer = GetNode<TileMapLayer>("%BaseTerrainTileMapLayer");
+    baseBuilding = GetNode<Node2D>("%Base");
   }
 
   private void SetUpNodes()
   {
     panCamera.SetBoundingRect(baseTerrainTileMapLayer.GetUsedRect());
+    panCamera.FocusOnPosition(baseBuilding.GlobalPosition);
   }
 
   private void ConnectSignals()

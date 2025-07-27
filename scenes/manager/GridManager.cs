@@ -13,6 +13,7 @@ public partial class GridManager : Node
   // Constants
   private const string IS_BUILDABLE = "is_buildable";
   private const string IS_WOOD = "is_wood";
+  private const string IS_IGNORED = "is_ignored";
 
   // Signals
   [Signal]
@@ -155,7 +156,7 @@ public partial class GridManager : Node
       var customTerrainData = layer.GetCellTileData(tilePosition);
 
       // If the tile is not found, we should check next next layer which is the higher layer in hierarchy
-      if (customTerrainData == null) continue;
+      if (customTerrainData == null || customTerrainData.GetCustomData(IS_IGNORED).As<bool>()) continue;
 
       // If the lowest layer is found, then whether it has the custom data key determines the validity of the tile position
       return customTerrainData.GetCustomData(customDataKey).As<bool>();

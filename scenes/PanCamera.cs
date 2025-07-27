@@ -29,4 +29,9 @@ public partial class PanCamera : Camera2D
     LimitRight = boundingRect.End.X * GridManager.GRID_SIZE;
     LimitBottom = boundingRect.End.Y * GridManager.GRID_SIZE;
   }
+
+  public void FocusOnPosition(Vector2 position)
+  {
+    GlobalPosition = position;
+  }
 }

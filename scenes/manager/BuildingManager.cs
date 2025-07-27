@@ -32,13 +32,15 @@ public partial class BuildingManager : Node
   private Node2D ySortRoot;
   [Export]
   private PackedScene buildingGhostScene;
+  [Export]
+  private int startingResourceCount = 6;
 
   // Variables
   private State currentState = State.Normal;
   private Vector2I hoveredTilePosition;
   private BuildingResource buildingResourceToPlace = null;
   private int currentResourceCount;
-  private int startingResourceCount = 6; // TODO: Remove hardcoded value
+
   private int currentlyUsedResourceCount;
   private BuildingGhost buildingGhostInstance;
 

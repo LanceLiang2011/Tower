@@ -41,6 +41,7 @@ y_sort_enabled = true
 tile_set = ExtResource("2_k2fmo")
 
 [node name="Base" parent="YSortRoot" instance=ExtResource("5_6q06x")]
+unique_name_in_owner = true
 
 [node name="GoldMine" parent="YSortRoot" instance=ExtResource("9_b1x3f")]
 unique_name_in_owner = true
