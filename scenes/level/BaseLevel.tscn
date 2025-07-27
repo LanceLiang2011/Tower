@@ -15,6 +15,7 @@
 script = ExtResource("1_hyk8p")
 
 [node name="PanCamera" parent="." instance=ExtResource("2_fjnsi")]
+unique_name_in_owner = true
 
 [node name="GridManager" parent="." node_paths=PackedStringArray("highlightTileMapLayer", "baseTerrainTileMapLayer") instance=ExtResource("2_l3cfh")]
 unique_name_in_owner = true
@@ -31,6 +32,7 @@ buildingGhostScene = ExtResource("4_yyfjg")
 y_sort_enabled = true
 
 [node name="BaseTerrainTileMapLayer" type="TileMapLayer" parent="YSortRoot"]
+unique_name_in_owner = true
 y_sort_enabled = true
 tile_set = ExtResource("2_k2fmo")
 

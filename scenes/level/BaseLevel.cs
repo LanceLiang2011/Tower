@@ -6,12 +6,16 @@ namespace Game;
 
 public partial class BaseLevel : Node
 {
+  // Nodes
   private GridManager gridManager;
   private GoldMine goldMine;
+  private PanCamera panCamera;
+  private TileMapLayer baseTerrainTileMapLayer;
 
   public override void _Ready()
   {
     GetNodes();
+    SetUpNodes();
     ConnectSignals();
   }
 
@@ -19,6 +23,13 @@ public partial class BaseLevel : Node
   {
     gridManager = GetNode<GridManager>("%GridManager");
     goldMine = GetNode<GoldMine>("%GoldMine");
+    panCamera = GetNode<PanCamera>("%PanCamera");
+    baseTerrainTileMapLayer = GetNode<TileMapLayer>("%BaseTerrainTileMapLayer");
+  }
+
+  private void SetUpNodes()
+  {
+    panCamera.SetBoundingRect(baseTerrainTileMapLayer.GetUsedRect());
   }
 
   private void ConnectSignals()

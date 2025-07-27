@@ -67,7 +67,7 @@ public partial class BuildingManager : Node
       case State.Normal:
         break;
       case State.PlacingBuilding:
-        buildingGhostInstance.GlobalPosition = new Vector2(gridPosition.X, gridPosition.Y) * gridManager.GRID_SIZE;
+        buildingGhostInstance.GlobalPosition = new Vector2(gridPosition.X, gridPosition.Y) * GridManager.GRID_SIZE;
         break;
       default:
         GD.PrintErr($"Unhandled state: {currentState}");
@@ -208,7 +208,7 @@ public partial class BuildingManager : Node
     // Okay you pay the cost now let's build the building
     var building = buildingResourceToPlace.BuildingScene.Instantiate<Node2D>();
     ySortRoot.AddChild(building);
-    building.GlobalPosition = new Vector2(hoveredTilePosition.X, hoveredTilePosition.Y) * gridManager.GRID_SIZE;
+    building.GlobalPosition = new Vector2(hoveredTilePosition.X, hoveredTilePosition.Y) * GridManager.GRID_SIZE;
 
     SetState(State.Normal);
   }

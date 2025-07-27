@@ -25,7 +25,7 @@ public partial class GridManager : Node
   private HashSet<Vector2I> collectedResourceTilePositions = new();
   private HashSet<Vector2I> occupiedTilePositions = new();
 
-  public float GRID_SIZE = 64f;
+  public const int GRID_SIZE = 64;
 
 
   [Export]
