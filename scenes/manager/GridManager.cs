@@ -1,5 +1,6 @@
 using Game.Components;
 using Game.Events;
+using Game.Utils;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ public partial class GridManager : Node
   private TileMapLayer baseTerrainTileMapLayer;
 
   private List<TileMapLayer> allTileMapLayers = new();
+  private Dictionary<TileMapLayer, ElevationLayer> tileMapLayerToElevationLayer = new();
 
 
   public override void _Ready()
@@ -81,6 +83,24 @@ public partial class GridManager : Node
     if (rootNode is TileMapLayer tmLayer) result.Add(tmLayer);
 
     return result;
+  }
+
+  private void MapTileMapLayerToElevationLayer()
+  {
+    foreach (var layer in allTileMapLayers)
+    {
+      ElevationLayer elevationLayer;
+      Node startNode;
+
+      do
+      {
+        var parent = layer.GetParent();
+        elevationLayer = parent as ElevationLayer; // If can't cast, it will be null
+        startNode = parent;
+      } while (elevationLayer == null && startNode != null);
+
+      tileMapLayerToElevationLayer[layer] = elevationLayer;
+    }
   }
 
 
