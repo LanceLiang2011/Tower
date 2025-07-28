@@ -37,7 +37,7 @@ public partial class BuildingManager : Node
 
   // Variables
   private State currentState = State.Normal;
-  private Vector2I hoveredTilePosition;
+  private Vector2I hoveredGridCell;
   private BuildingResource buildingResourceToPlace = null;
   private int currentResourceCount;
 
@@ -58,9 +58,9 @@ public partial class BuildingManager : Node
     var gridPosition = gridManager.GetMouseGridPosition();
 
 
-    if (hoveredTilePosition != gridPosition)
+    if (hoveredGridCell != gridPosition)
     {
-      hoveredTilePosition = gridPosition;
+      hoveredGridCell = gridPosition;
       UpdateHoveredGridCell();
     }
 
@@ -93,7 +93,7 @@ public partial class BuildingManager : Node
           SetState(State.Normal);
         }
         else if (evt.IsActionPressed(ACTION_LEFT_CLICK) &&
-        IsBuildingPlaceableOnTile(hoveredTilePosition))
+        IsBuildingPlaceableOnTile(hoveredGridCell))
         {
           SpawnBuildingOnHoveredGridPosition();
         }
@@ -122,10 +122,10 @@ public partial class BuildingManager : Node
     gridManager.ClearHighlightedTiles();
     gridManager.HighlightBuildableTiles();
 
-    if (IsBuildingPlaceableOnTile(hoveredTilePosition))
+    if (IsBuildingPlaceableOnTile(hoveredGridCell))
     {
-      gridManager.HighlightExpandedBuildableTiles(hoveredTilePosition, buildingResourceToPlace.BuildingRadius);
-      gridManager.HighlightResourceTiles(hoveredTilePosition, buildingResourceToPlace.ResourceCollectionRadius);
+      gridManager.HighlightExpandedBuildableTiles(hoveredGridCell, buildingResourceToPlace.BuildingRadius);
+      gridManager.HighlightResourceTiles(hoveredGridCell, buildingResourceToPlace.ResourceCollectionRadius);
       buildingGhostInstance.SetValid();
     }
     else
@@ -210,7 +210,7 @@ public partial class BuildingManager : Node
     // Okay you pay the cost now let's build the building
     var building = buildingResourceToPlace.BuildingScene.Instantiate<Node2D>();
     ySortRoot.AddChild(building);
-    building.GlobalPosition = new Vector2(hoveredTilePosition.X, hoveredTilePosition.Y) * GridManager.GRID_SIZE;
+    building.GlobalPosition = new Vector2(hoveredGridCell.X, hoveredGridCell.Y) * GridManager.GRID_SIZE;
 
     SetState(State.Normal);
   }
@@ -218,7 +218,7 @@ public partial class BuildingManager : Node
   private void DestroyBuildingOnHoveredGridPosition()
   {
     var building = GetTree().GetNodesInGroup(nameof(BuildingComponent)).Cast<BuildingComponent>()
-    .FirstOrDefault(b => b.GetBuildingCellPosition() == hoveredTilePosition);
+    .FirstOrDefault(b => b.GetBuildingCellPosition() == hoveredGridCell);
 
     if (building == null) return;
 

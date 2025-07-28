@@ -7,6 +7,7 @@
 [resource]
 script = ExtResource("1_a2pil")
 BuildingName = "Tower"
+Dimensions = Vector2i(2, 2)
 BuildingRadius = 3
 ResourceCollectionRadius = 0
 ResourceCost = 4
