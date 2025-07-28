@@ -17,6 +17,8 @@ public partial class BuildingResource : Resource
   public int ResourceCollectionRadius { get; private set; }
   [Export]
   public int ResourceCost { get; private set; }
+  [Export]
+  public bool IsDeletable { get; private set; } = true;
 
   [Export]
   public PackedScene BuildingScene { get; private set; }
