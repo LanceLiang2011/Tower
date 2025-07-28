@@ -5,7 +5,7 @@
 
 [node name="Level1" instance=ExtResource("1_cfjva")]
 
-[node name="YSortRoot" parent="." index="3"]
+[node name="YSortRoot" parent="." index="4"]
 metadata/_edit_lock_ = true
 
 [node name="BaseTerrainTileMapLayer" parent="YSortRoot" index="0"]
