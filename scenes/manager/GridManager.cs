@@ -62,23 +62,23 @@ public partial class GridManager : Node
 
 
   // A recursive method to get all TileMapLayers in the root layer and its children
-  private List<TileMapLayer> GetAllTileMapLayers(TileMapLayer rootLayer)
+  private List<TileMapLayer> GetAllTileMapLayers(Node2D rootNode)
   {
     var result = new List<TileMapLayer>();
 
-    var rootLayerChildren = rootLayer.GetChildren();
+    var rootLayerChildren = rootNode.GetChildren();
 
     rootLayerChildren.Reverse();
 
     foreach (var child in rootLayerChildren)
     {
-      if (child is TileMapLayer childMapLayer)
+      if (child is Node2D childNode)
       {
-        result.AddRange(GetAllTileMapLayers(childMapLayer));
+        result.AddRange(GetAllTileMapLayers(childNode));
       }
     }
 
-    result.Add(rootLayer);
+    if (rootNode is TileMapLayer tmLayer) result.Add(tmLayer);
 
     return result;
   }
