@@ -115,25 +115,11 @@ public partial class BuildingManager : Node
     gameUi.PlaceBuildingButtonPressed += OnBuildingButtonSelected;
   }
 
-  private List<Vector2I> GetTilePositionsInArea(Rect2I tileArea)
-  {
-    var positions = new List<Vector2I>();
-
-    for (int x = tileArea.Position.X; x < tileArea.End.X; x++)
-    {
-      for (int y = tileArea.Position.Y; y < tileArea.End.Y; y++)
-      {
-        positions.Add(new Vector2I(x, y));
-      }
-    }
-    return positions;
-  }
-
   private bool IsBuildingPlaceableAtArea(Rect2I tileArea)
   {
-    var tilePositions = GetTilePositionsInArea(tileArea);
+    var allTilesBuildable = gridManager.IsTileAreaBuildable(tileArea);
 
-    return tilePositions.All(gridManager.IsTilePositionBuildable) && AvailableResourceCount >= buildingResourceToPlace.ResourceCost;
+    return allTilesBuildable && AvailableResourceCount >= buildingResourceToPlace.ResourceCost;
   }
 
 

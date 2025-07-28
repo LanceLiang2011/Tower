@@ -92,11 +92,11 @@ public partial class GridManager : Node
     foreach (var layer in allTileMapLayers)
     {
       ElevationLayer elevationLayer;
-      Node startNode;
+      Node startNode = layer;
 
       do
       {
-        var parent = layer.GetParent();
+        var parent = startNode.GetParent();
         elevationLayer = parent as ElevationLayer; // If can't cast, it will be null
         startNode = parent;
       } while (elevationLayer == null && startNode != null);
@@ -171,7 +171,7 @@ public partial class GridManager : Node
 
 
 
-  private bool IsTileWithCustomData(Vector2I tilePosition, string customDataKey)
+  private (TileMapLayer, bool) GetTileWithCustomData(Vector2I tilePosition, string customDataKey)
   {
     foreach (var layer in allTileMapLayers)
     {
@@ -181,28 +181,55 @@ public partial class GridManager : Node
       if (customTerrainData == null || customTerrainData.GetCustomData(IS_IGNORED).As<bool>()) continue;
 
       // If the lowest layer is found, then whether it has the custom data key determines the validity of the tile position
-      return customTerrainData.GetCustomData(customDataKey).As<bool>();
+      return (layer, customTerrainData.GetCustomData(customDataKey).As<bool>());
     }
 
     // This line will be reached if all layers at this position are null. Then this is a null position hence not valid
-    return false;
+    return (null, false);
   }
 
 
   private bool IsTilePositionValid(Vector2I tilePosition)
   {
-    return IsTileWithCustomData(tilePosition, IS_BUILDABLE);
+    return GetTileWithCustomData(tilePosition, IS_BUILDABLE).Item2;
 
   }
 
   private bool IsTilePositionResource(Vector2I tilePosition)
   {
-    return IsTileWithCustomData(tilePosition, IS_WOOD);
+    return GetTileWithCustomData(tilePosition, IS_WOOD).Item2;
   }
 
   public bool IsTilePositionBuildable(Vector2I tilePosition)
   {
     return validBuildableTilePositions.Contains(tilePosition);
+  }
+
+  public bool IsTileAreaBuildable(Rect2I tileArea)
+  {
+    var tiles = new List<Vector2I>();
+
+    for (int x = tileArea.Position.X; x < tileArea.End.X; x++)
+    {
+      for (int y = tileArea.Position.Y; y < tileArea.End.Y; y++)
+      {
+        tiles.Add(new Vector2I(x, y));
+      }
+    }
+
+    if (tiles.Count == 0) return false;
+
+    var firstTileMapLayer = GetTileWithCustomData(tiles[0], IS_BUILDABLE).Item1;
+
+    var targetElevationLayer = tileMapLayerToElevationLayer[firstTileMapLayer];
+
+    return tiles.All(tilePosition =>
+    {
+      var (layer, isValid) = GetTileWithCustomData(tilePosition, IS_BUILDABLE);
+      var elevationLayer = tileMapLayerToElevationLayer[layer];
+
+      return isValid && validBuildableTilePositions.Contains(tilePosition) && elevationLayer == targetElevationLayer;
+    });
   }
 
 
