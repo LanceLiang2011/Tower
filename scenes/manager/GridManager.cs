@@ -47,6 +47,8 @@ public partial class GridManager : Node
 
     allTileMapLayers = GetAllTileMapLayers(baseTerrainTileMapLayer);
 
+    MapTileMapLayerToElevationLayer();
+
   }
 
   private void ConnectSignals()
