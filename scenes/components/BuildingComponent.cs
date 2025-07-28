@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Game.Events;
 using Game.Resources.Building;
 using Godot;
@@ -10,18 +11,25 @@ public partial class BuildingComponent : Node2D
   public float GRID_SIZE = 64f;
 
   [Export(PropertyHint.File, "*.tres")]
-  public string BuildingResourcePath { get; private set; }
+  private string BuildingResourcePath { get; set; }
 
   public BuildingResource buildingResource { get; private set; }
+
+  private HashSet<Vector2I> occupiedCells = new();
 
 
   public override void _Ready()
   {
+    if (BuildingResourcePath != null && BuildingResourcePath != "")
+    {
+      buildingResource = GD.Load<BuildingResource>(BuildingResourcePath);
+    }
+
     AddToGroup(nameof(BuildingComponent));
 
-    Callable.From(() => GameEvents.EmitBuildingPlaced(this)).CallDeferred();
+    Callable.From(Initialize).CallDeferred();
 
-    buildingResource = GD.Load<BuildingResource>(BuildingResourcePath);
+
   }
 
   public Vector2I GetGridPositionFromPosition(Vector2 position)
@@ -35,9 +43,25 @@ public partial class BuildingComponent : Node2D
     return GetGridPositionFromPosition(GlobalPosition);
   }
 
-  public List<Vector2I> GetListOfOccupiedCells()
+  public HashSet<Vector2I> GetListOfOccupiedCells()
   {
-    var occupiedCells = new List<Vector2I>();
+    return occupiedCells.ToHashSet(); // Return a copy to avoid external modifications
+  }
+
+  public bool IsTileInBuildingArea(Vector2I tilePosition)
+  {
+    return occupiedCells.Contains(tilePosition);
+  }
+
+  // Private methods
+  private void Initialize()
+  {
+    CalculateListOfOccupiedCells();
+    GameEvents.EmitBuildingPlaced(this);
+  }
+
+  private void CalculateListOfOccupiedCells()
+  {
     var buildingCellPosition = GetBuildingCellPosition();
 
     for (int x = buildingCellPosition.X; x < buildingCellPosition.X + buildingResource.Dimensions.X; x++)
@@ -48,7 +72,6 @@ public partial class BuildingComponent : Node2D
       }
     }
 
-    return occupiedCells;
   }
 
 
