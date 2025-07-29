@@ -7,7 +7,7 @@
 script = ExtResource("1_y3boo")
 BuildingName = "Base"
 Dimensions = Vector2i(5, 2)
-BuildingRadius = 3
+BuildingRadius = 6
 ResourceCollectionRadius = 0
 ResourceCost = 0
 IsDeletable = false
