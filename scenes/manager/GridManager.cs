@@ -207,7 +207,7 @@ public partial class GridManager : Node
 
   public bool IsTileAreaBuildable(Rect2I tileArea)
   {
-    var tiles = new List<Vector2I>();
+    var tiles = tileArea.ToTiles();
 
     for (int x = tileArea.Position.X; x < tileArea.End.X; x++)
     {
