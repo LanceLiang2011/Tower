@@ -8,25 +8,31 @@ public partial class GameUi : CanvasLayer
 {
   [Export]
   private Godot.Collections.Array<BuildingResource> buildingResources;
+  [Export]
+  private PackedScene buildingSectionScene;
 
   [Signal]
   public delegate void PlaceBuildingButtonPressedEventHandler(BuildingResource buildingResource);
 
-  private HBoxContainer buttonsContainer;
+  private VBoxContainer buildingSectionsContainer;
 
   public override void _Ready()
   {
-    buttonsContainer = null;
-
-    // foreach (var buildingResource in buildingResources)
-    // {
-    //   var button = new Button();
-    //   button.Text = $"Place {buildingResource.BuildingName}";
-    //   button.Name = buildingResource.BuildingName;
-    //   buttonsContainer.AddChild(button);
-
-    //   button.Pressed += () => EmitSignal(SignalName.PlaceBuildingButtonPressed, buildingResource);
-    // }
+    buildingSectionsContainer = GetNode<VBoxContainer>("%BuildingSectionsContainer");
+    CreateBuildingSection();
   }
 
+
+  private void CreateBuildingSection()
+  {
+    foreach (var buildingResource in buildingResources)
+    {
+      var buildingSection = buildingSectionScene.Instantiate<BuildingSection>();
+      buildingSectionsContainer.AddChild(buildingSection);
+      buildingSection.ConfigureSettingsWithResource(buildingResource);
+
+      // Connect the select button signal to the handler
+      buildingSection.SelectButtonPressed += () => EmitSignal(SignalName.PlaceBuildingButtonPressed, buildingResource);
+    }
+  }
 }

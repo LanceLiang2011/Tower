@@ -8,6 +8,7 @@
 [node name="GameUI" type="CanvasLayer"]
 script = ExtResource("1_4u50f")
 buildingResources = Array[Object]([ExtResource("2_c1sxn"), ExtResource("3_yr8ot")])
+buildingSectionScene = ExtResource("4_yr8ot")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -24,8 +25,7 @@ theme_override_constants/margin_bottom = 16
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+[node name="BuildingSectionsContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-
-[node name="BuildingSection" parent="MarginContainer/PanelContainer/VBoxContainer" instance=ExtResource("4_yr8ot")]
-layout_mode = 2
+theme_override_constants/separation = 16
