@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5y4urpt56mtw"]
+[gd_scene load_steps=5 format=3 uid="uid://c5y4urpt56mtw"]
 
 [ext_resource type="Script" uid="uid://cb0s112bxvor" path="res://scenes/UI/GameUi.cs" id="1_4u50f"]
 [ext_resource type="Resource" uid="uid://dwwfaqvhawdy8" path="res://resources/building/tower_building_resource.tres" id="2_c1sxn"]
 [ext_resource type="Resource" uid="uid://cxsrj73fl4d01" path="res://resources/building/village_building_resource.tres" id="3_yr8ot"]
+[ext_resource type="PackedScene" uid="uid://dq6m25asgp7wp" path="res://scenes/UI/building_section.tscn" id="4_yr8ot"]
 
 [node name="GameUI" type="CanvasLayer"]
 script = ExtResource("1_4u50f")
@@ -26,10 +27,5 @@ size_flags_horizontal = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="BuildingButtons" type="PanelContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="BuildingSection" parent="MarginContainer/PanelContainer/VBoxContainer" instance=ExtResource("4_yr8ot")]
 layout_mode = 2
-theme_type_variation = &"PanelContainerInner"
-
-[node name="Button" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/BuildingButtons"]
-layout_mode = 2
-text = "Place  Building"
