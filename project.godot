@@ -29,6 +29,10 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="Tower"
 
+[gui]
+
+theme/custom="uid://cu5js0q2pk8oq"
+
 [input]
 
 left_click={
