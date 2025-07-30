@@ -16,17 +16,17 @@ public partial class GameUi : CanvasLayer
 
   public override void _Ready()
   {
-    buttonsContainer = GetNode<HBoxContainer>("%ButtonsContainer");
+    buttonsContainer = null;
 
-    foreach (var buildingResource in buildingResources)
-    {
-      var button = new Button();
-      button.Text = $"Place {buildingResource.BuildingName}";
-      button.Name = buildingResource.BuildingName;
-      buttonsContainer.AddChild(button);
+    // foreach (var buildingResource in buildingResources)
+    // {
+    //   var button = new Button();
+    //   button.Text = $"Place {buildingResource.BuildingName}";
+    //   button.Name = buildingResource.BuildingName;
+    //   buttonsContainer.AddChild(button);
 
-      button.Pressed += () => EmitSignal(SignalName.PlaceBuildingButtonPressed, buildingResource);
-    }
+    //   button.Pressed += () => EmitSignal(SignalName.PlaceBuildingButtonPressed, buildingResource);
+    // }
   }
 
 }
