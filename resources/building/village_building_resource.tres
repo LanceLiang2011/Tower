@@ -7,10 +7,12 @@
 [resource]
 script = ExtResource("1_plr6n")
 BuildingName = "Village"
+Description = "Gather woods"
 Dimensions = Vector2i(2, 2)
 BuildingRadius = 0
 ResourceCollectionRadius = 2
 ResourceCost = 2
+IsDeletable = true
 BuildingScene = ExtResource("1_6omt8")
 BuildingSpriteScene = ExtResource("2_jcq65")
 metadata/_custom_type_script = "uid://bkrn4uo5jsn6v"

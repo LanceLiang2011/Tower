@@ -62,6 +62,10 @@ axis_stretch_vertical = 1
 region_rect = Rect2(36, 32, 120, 132)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cn4gw"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
 texture = ExtResource("2_70gfe")
 texture_margin_left = 24.0
 texture_margin_top = 24.0

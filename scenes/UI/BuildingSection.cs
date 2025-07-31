@@ -8,6 +8,8 @@ public partial class BuildingSection : PanelContainer
   public delegate void SelectButtonPressedEventHandler();
 
   private Label titleLabel;
+  private Label descriptionLabel;
+  private Label costLabel;
   private Button selectButton;
 
 
@@ -20,12 +22,16 @@ public partial class BuildingSection : PanelContainer
   public void ConfigureSettingsWithResource(BuildingResource buildingResource)
   {
     titleLabel.Text = buildingResource.BuildingName;
-    selectButton.Text = $"Select (Cost: {buildingResource.ResourceCost})";
+    descriptionLabel.Text = buildingResource.Description;
+    costLabel.Text = buildingResource.ResourceCost.ToString();
+    selectButton.Text = "Select";
   }
 
   private void GetNodes()
   {
     titleLabel = GetNode<Label>("%TitleLabel");
+    descriptionLabel = GetNode<Label>("%DescriptionLabel");
+    costLabel = GetNode<Label>("%CostLabel");
     selectButton = GetNode<Button>("%SelectButton");
   }
 

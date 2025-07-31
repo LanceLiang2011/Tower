@@ -8,6 +8,8 @@ public partial class BuildingResource : Resource
   [Export]
   public string BuildingName { get; private set; }
   [Export]
+  public string Description { get; private set; }
+  [Export]
   public Vector2I Dimensions { get; private set; } = Vector2I.One;
 
   [Export]
