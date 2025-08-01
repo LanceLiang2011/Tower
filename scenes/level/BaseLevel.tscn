@@ -14,7 +14,8 @@
 [node name="BaseLevel" type="Node"]
 script = ExtResource("1_hyk8p")
 
-[node name="GameUI" parent="." instance=ExtResource("6_ow5a4")]
+[node name="GameUI" parent="." node_paths=PackedStringArray("buildingManager") instance=ExtResource("6_ow5a4")]
+buildingManager = NodePath("../BuildingManager")
 
 [node name="PanCamera" parent="." instance=ExtResource("2_fjnsi")]
 unique_name_in_owner = true

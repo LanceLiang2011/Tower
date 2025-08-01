@@ -55,7 +55,8 @@ public partial class BuildingManager : Node
   public override void _Ready()
   {
     ConnectSignals();
-    EmitSignal(SignalName.AvailableResourceCountChanged, AvailableResourceCount);
+    Callable.From(() => EmitSignal(SignalName.AvailableResourceCountChanged, AvailableResourceCount)).CallDeferred();
+
   }
 
 
