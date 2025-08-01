@@ -24,6 +24,10 @@ public partial class BuildingManager : Node
   private readonly StringName ACTION_RIGHT_CLICK = "right_click";
   private readonly StringName ACTION_CANCEL_BUILDING_PLACEMENT = "cancel_building_placement";
 
+  // Signals
+  [Signal]
+  public delegate void AvailableResourceCountChangedEventHandler(int availableResourceCount);
+
 
   [Export]
   private GridManager gridManager;
@@ -51,6 +55,7 @@ public partial class BuildingManager : Node
   public override void _Ready()
   {
     ConnectSignals();
+    EmitSignal(SignalName.AvailableResourceCountChanged, AvailableResourceCount);
   }
 
 
@@ -193,8 +198,7 @@ public partial class BuildingManager : Node
   private void OnResourceTilesUpdated(int resourceCount)
   {
     currentResourceCount = resourceCount;
-
-    GD.Print($"Current resource count: {currentResourceCount}"); // TODO: Remove debug print
+    EmitSignal(SignalName.AvailableResourceCountChanged, AvailableResourceCount);
   }
 
   private void OnBuildingButtonSelected(BuildingResource buildingResource)
@@ -214,6 +218,7 @@ public partial class BuildingManager : Node
   {
     // charge resource cost first
     currentlyUsedResourceCount += buildingResourceToPlace.ResourceCost;
+    EmitSignal(SignalName.AvailableResourceCountChanged, AvailableResourceCount);
 
     // Okay you pay the cost now let's build the building
     var building = buildingResourceToPlace.BuildingScene.Instantiate<Node2D>();
@@ -235,6 +240,7 @@ public partial class BuildingManager : Node
 
     // Remove the used resource count
     currentlyUsedResourceCount -= building.buildingResource.ResourceCost;
+    EmitSignal(SignalName.AvailableResourceCountChanged, AvailableResourceCount);
     // Emit the building destroyed event
     GameEvents.EmitBuildingDestroyed(building);
     // Destroy the building scene
