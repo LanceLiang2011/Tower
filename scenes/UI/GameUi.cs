@@ -26,6 +26,11 @@ public partial class GameUi : CanvasLayer
     CreateBuildingSection();
   }
 
+  public void HideUI()
+  {
+    Visible = false;
+  }
+
   private void GetNodes()
   {
     buildingSectionsContainer = GetNode<VBoxContainer>("%BuildingSectionsContainer");

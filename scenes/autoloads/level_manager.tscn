@@ -5,4 +5,4 @@
 
 [node name="LevelManager" type="Node"]
 script = ExtResource("1_lm7yw")
-levelScenes = Array[PackedScene]([ExtResource("2_nnnad")])
+levelScenes = Array[PackedScene]([ExtResource("2_nnnad"), ExtResource("2_nnnad")])

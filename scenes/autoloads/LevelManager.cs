@@ -7,6 +7,8 @@ public partial class LevelManager : Node
   [Export]
   private PackedScene[] levelScenes;
 
+  private int currentLevelIndex = 0;
+
   public override void _Notification(int what)
   {
     base._Notification(what);
@@ -19,13 +21,14 @@ public partial class LevelManager : Node
 
   public void ChangeToLevel(int levelIndex)
   {
-    GD.Print("Changing to level: " + levelIndex);
-
     if (levelIndex < 0 || levelIndex >= levelScenes.Length)
     {
       GD.PrintErr("Invalid level index: " + levelIndex);
       return;
     }
+
+    currentLevelIndex = levelIndex;
+
 
     var levelScene = levelScenes[levelIndex];
 
@@ -35,6 +38,14 @@ public partial class LevelManager : Node
       return;
     }
 
+    GD.Print("Changing to level: " + levelIndex + " - " + levelScene.ResourcePath);
     GetTree().ChangeSceneToPacked(levelScene);
+  }
+
+  public int CurrentLevelIndex() => currentLevelIndex;
+
+  public void ChangeToNextLevel()
+  {
+    ChangeToLevel(currentLevelIndex + 1);
   }
 }

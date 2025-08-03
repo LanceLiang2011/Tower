@@ -51,10 +51,21 @@ public partial class GridManager : Node
 
   }
 
+  public override void _ExitTree()
+  {
+    DisconnectSignals();
+  }
+
   private void ConnectSignals()
   {
     GameEvents.Instance.BuildingPlaced += OnBuildingPlaced;
     GameEvents.Instance.BuildingDestroyed += OnBuildingDestroyed;
+  }
+
+  private void DisconnectSignals()
+  {
+    GameEvents.Instance.BuildingPlaced -= OnBuildingPlaced;
+    GameEvents.Instance.BuildingDestroyed -= OnBuildingDestroyed;
   }
 
   public Vector2I GetMouseGridPosition()
