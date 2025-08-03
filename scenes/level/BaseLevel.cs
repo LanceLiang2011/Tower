@@ -63,7 +63,7 @@ public partial class BaseLevel : Node
 
     var goldMineCellPosition = gridManager.GetGridPositionFromPosition(goldMine.GlobalPosition);
 
-    if (gridManager.IsTilePositionBuildable(goldMineCellPosition))
+    if (gridManager.IsTilePositionInAnyBuildingRadius(goldMineCellPosition))
     {
       goldMine.SetActiveTexture();
       WinLevel();

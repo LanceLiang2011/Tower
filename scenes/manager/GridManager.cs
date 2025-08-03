@@ -24,6 +24,7 @@ public partial class GridManager : Node
 
   // Local data
   private HashSet<Vector2I> validBuildableTilePositions = new();
+  private HashSet<Vector2I> allTilesInBuildingRadius = new();
   private HashSet<Vector2I> collectedResourceTilePositions = new();
   private HashSet<Vector2I> occupiedTilePositions = new();
 
@@ -216,6 +217,11 @@ public partial class GridManager : Node
     return validBuildableTilePositions.Contains(tilePosition);
   }
 
+  public bool IsTilePositionInAnyBuildingRadius(Vector2I tilePosition)
+  {
+    return allTilesInBuildingRadius.Contains(tilePosition);
+  }
+
   public bool IsTileAreaBuildable(Rect2I tileArea)
   {
     var tiles = tileArea.ToTiles();
@@ -253,8 +259,10 @@ public partial class GridManager : Node
 
     var tileArea = new Rect2I(buildingCellPosition, buildingComponent.buildingResource.Dimensions);
 
-    var validCellsInRadius = GetValidTilesInRadius(tileArea, buildingRadius);
+    var allTiles = GetTilesInRadius(tileArea, buildingRadius, (_) => true);
+    allTilesInBuildingRadius.UnionWith(allTiles);
 
+    var validCellsInRadius = GetValidTilesInRadius(tileArea, buildingRadius);
     validBuildableTilePositions.UnionWith(validCellsInRadius);
 
     var allBuildingComponents = GetTree().GetNodesInGroup(nameof(BuildingComponent)).Cast<BuildingComponent>();
@@ -288,6 +296,7 @@ public partial class GridManager : Node
     validBuildableTilePositions.Clear();
     occupiedTilePositions.Clear();
     collectedResourceTilePositions.Clear();
+    allTilesInBuildingRadius.Clear();
 
     var buildingComponents = GetTree().GetNodesInGroup(nameof(BuildingComponent)).Cast<BuildingComponent>().Where(b => b != buildingToDestroy);
 
