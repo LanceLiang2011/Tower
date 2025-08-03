@@ -1,11 +1,16 @@
 using Godot;
 using Game.Manager;
 using Game.Special;
+using Game.UI;
 
 namespace Game;
 
 public partial class BaseLevel : Node
 {
+  // Scenes
+  [Export]
+  private PackedScene levelCompleteScreenScene;
+
   // Nodes
   private GridManager gridManager;
   private GoldMine goldMine;
@@ -40,6 +45,12 @@ public partial class BaseLevel : Node
     gridManager.GridStateUpdated += OnGridManagerGridStateUpdated;
   }
 
+  private void WinLevel()
+  {
+    var levelCompleteScreen = levelCompleteScreenScene.Instantiate<LevelCompleteScreen>();
+    AddChild(levelCompleteScreen);
+  }
+
 
 
   private void OnGridManagerGridStateUpdated()
@@ -51,7 +62,7 @@ public partial class BaseLevel : Node
     if (gridManager.IsTilePositionBuildable(goldMineCellPosition))
     {
       goldMine.SetActiveTexture();
-      // Winning condition achieved. TODO: Show win screen
+      WinLevel();
     }
 
   }
