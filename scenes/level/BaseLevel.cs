@@ -50,8 +50,8 @@ public partial class BaseLevel : Node
 
     if (gridManager.IsTilePositionBuildable(goldMineCellPosition))
     {
-      GD.Print("Gold Mine is in a valid buildable position.");
       goldMine.SetActiveTexture();
+      // Winning condition achieved. TODO: Show win screen
     }
 
   }

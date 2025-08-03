@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="Tower"
-run/main_scene="uid://bxfbpq03av0kd"
+run/main_scene="uid://di3i7wljborp5"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
 GameEvents="*res://scenes/autoloads/GameEvents.tscn"
+LevelManager="*res://scenes/autoloads/level_manager.tscn"
 
 [display]
 

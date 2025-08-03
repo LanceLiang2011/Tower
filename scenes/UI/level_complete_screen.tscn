@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://0uyhnvs7p5o4"]
+
+[ext_resource type="Texture2D" uid="uid://di7wwifww7xls" path="res://assets/ui/Ribbon_Red_3Slides.png" id="1_csbdc"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yd6qh"]
+texture = ExtResource("1_csbdc")
+texture_margin_left = 61.0
+texture_margin_right = 60.0
+axis_stretch_horizontal = 1
+region_rect = Rect2(3, 0, 185, 62)
+
+[node name="LevelCompleteScreen" type="CanvasLayer"]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = -48
+
+[node name="RibbonContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(256, 62)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_yd6qh")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/RibbonContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 16
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/RibbonContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 32
+text = "Level Complete"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+show_behind_parent = true
+layout_mode = 2
+theme_override_constants/margin_left = 46
+theme_override_constants/margin_right = 46
+
+[node name="ScrollContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 48
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+text = "Next Level"
